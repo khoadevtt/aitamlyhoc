@@ -1,667 +1,752 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trắc nghiệm Tâm lý AI</title>
+    <title>Mind Explorer | AI-Powered Psychological Test</title>
     <style>
         :root {
-            --primary-color: #4a6fa5;
-            --secondary-color: #6b8cae;
-            --accent-color: #ff7e5f;
-            --light-color: #f8f9fa;
-            --dark-color: #343a40;
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --accent: #fd79a8;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --success: #00b894;
+            --warning: #fdcb6e;
+            --danger: #d63031;
+            --info: #0984e3;
+            --border-radius: 12px;
+            --box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
         }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: var(--dark-color);
-            background-color: #f5f7fa;
+
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
+        body {
+            background-color: #f5f6fa;
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
         .container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 2rem;
+            flex: 1;
         }
-        
+
         header {
             text-align: center;
-            margin-bottom: 30px;
-            padding: 20px 0;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
         }
-        
+
         h1 {
-            color: var(--primary-color);
-            margin-bottom: 10px;
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
-        
+
+        .subtitle {
+            color: var(--secondary);
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .test-container {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 2rem;
+            transition: var(--transition);
+        }
+
         .progress-container {
             width: 100%;
             background-color: #e0e0e0;
-            border-radius: 5px;
-            margin: 20px 0;
+            border-radius: 20px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
         }
-        
+
         .progress-bar {
             height: 10px;
-            background-color: var(--accent-color);
-            border-radius: 5px;
-            width: 0%;
-            transition: width 0.3s ease;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 20px;
+            transition: width 0.5s ease;
         }
-        
+
+        .progress-text {
+            text-align: center;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
         .question-container {
-            background-color: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
+            margin-bottom: 2rem;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
         }
-        
+
         .question-text {
             font-size: 1.2rem;
-            margin-bottom: 20px;
             font-weight: 500;
+            color: var(--dark);
         }
-        
+
         .options-container {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 12px;
+            gap: 1rem;
         }
-        
-        .option {
-            padding: 12px 15px;
-            background-color: var(--light-color);
-            border: 1px solid #ddd;
-            border-radius: 5px;
+
+        .option-btn {
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: var(--border-radius);
+            background-color: white;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: var(--transition);
+            text-align: left;
+            font-size: 1rem;
         }
-        
-        .option:hover {
-            background-color: #e9ecef;
-            border-color: var(--secondary-color);
+
+        .option-btn:hover {
+            border-color: var(--secondary);
+            transform: translateY(-2px);
         }
-        
-        .option.selected {
-            background-color: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
+
+        .option-btn.selected {
+            border-color: var(--primary);
+            background-color: rgba(108, 92, 231, 0.1);
         }
-        
-        .nav-buttons {
+
+        .nav-btns {
             display: flex;
             justify-content: space-between;
-            margin-top: 20px;
+            margin-top: 2rem;
         }
-        
-        button {
-            padding: 10px 20px;
+
+        .btn {
+            padding: 0.8rem 1.5rem;
             border: none;
-            border-radius: 5px;
+            border-radius: var(--border-radius);
+            font-weight: 600;
             cursor: pointer;
-            font-weight: 500;
-            transition: all 0.2s ease;
+            transition: var(--transition);
         }
-        
+
         .btn-primary {
-            background-color: var(--primary-color);
+            background-color: var(--primary);
             color: white;
         }
-        
+
         .btn-primary:hover {
-            background-color: #3a5a8c;
+            background-color: #5a4bd1;
+            transform: translateY(-2px);
         }
-        
+
         .btn-secondary {
-            background-color: #6c757d;
-            color: white;
+            background-color: var(--light);
+            color: var(--dark);
+            border: 1px solid #e0e0e0;
         }
-        
+
         .btn-secondary:hover {
-            background-color: #5a6268;
+            background-color: #e9ecef;
         }
-        
-        .btn-accent {
-            background-color: var(--accent-color);
-            color: white;
+
+        .btn-disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
-        
-        .btn-accent:hover {
-            background-color: #e66a4a;
-        }
-        
+
         .result-container {
-            background-color: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
             display: none;
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--box-shadow);
+            animation: fadeIn 0.5s ease;
         }
-        
+
         .result-title {
-            color: var(--primary-color);
-            margin-bottom: 20px;
+            color: var(--primary);
+            margin-bottom: 1rem;
             text-align: center;
         }
-        
+
+        .result-level {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            padding: 0.5rem;
+            border-radius: var(--border-radius);
+        }
+
+        .level-mild {
+            color: var(--success);
+            background-color: rgba(0, 184, 148, 0.1);
+        }
+
+        .level-moderate {
+            color: var(--warning);
+            background-color: rgba(253, 203, 110, 0.1);
+        }
+
+        .level-severe {
+            color: var(--danger);
+            background-color: rgba(214, 48, 49, 0.1);
+        }
+
+        .level-critical {
+            color: white;
+            background-color: var(--danger);
+        }
+
         .result-content {
-            margin-bottom: 20px;
+            margin-bottom: 2rem;
         }
-        
+
         .music-recommendations {
-            margin-top: 30px;
+            background-color: rgba(152, 128, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            margin-top: 1.5rem;
         }
-        
-        .music-item {
+
+        .music-title {
+            color: var(--primary);
+            margin-bottom: 1rem;
             display: flex;
             align-items: center;
-            padding: 10px;
-            border-bottom: 1px solid #eee;
+            gap: 0.5rem;
         }
-        
+
+        .music-list {
+            list-style-type: none;
+        }
+
+        .music-item {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
         .music-item:last-child {
             border-bottom: none;
         }
-        
+
         .loading {
             display: none;
             text-align: center;
-            padding: 20px;
+            padding: 2rem;
         }
-        
+
         .spinner {
-            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(108, 92, 231, 0.2);
             border-radius: 50%;
-            border-top: 4px solid var(--primary-color);
-            width: 30px;
-            height: 30px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 15px;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+            margin: 0 auto 1rem;
         }
-        
+
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            to { transform: rotate(360deg); }
         }
-        
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         footer {
             text-align: center;
-            margin-top: 40px;
-            padding: 20px;
-            color: #6c757d;
+            padding: 1rem;
+            color: var(--dark);
+            opacity: 0.7;
             font-size: 0.9rem;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .test-container, .result-container {
+                padding: 1.5rem;
+            }
+            
+            .question-text {
+                font-size: 1.1rem;
+            }
+            
+            .btn {
+                padding: 0.7rem 1.2rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Animation for question transition */
+        .fade-out {
+            animation: fadeOut 0.3s ease;
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-20px); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Trắc nghiệm Tâm lý AI</h1>
-            <p>Khám phá trạng thái tâm lý của bạn thông qua 21 câu hỏi được AI thiết kế riêng</p>
+            <h1>TEST TÂM LÝ </h1>
+            <p class="subtitle">made by Khoa Dev | Đảm bảo kết quả chính xác đạt 99%</p>
         </header>
-        
-        <div class="progress-container">
-            <div class="progress-bar" id="progressBar"></div>
+
+        <div class="test-container" id="testContainer">
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <p class="progress-text" id="progressText">Question 1 of 21</p>
+            
+            <div class="question-container">
+                <p class="question-text" id="questionText">Loading first question...</p>
+            </div>
+            
+            <div class="options-container" id="optionsContainer">
+                <!-- Options will be dynamically inserted here -->
+            </div>
+            
+            <div class="nav-btns">
+                <button class="btn btn-secondary" id="resetBtn">Kiểm tra lại</button>
+                <button class="btn btn-primary" id="nextBtn" disabled>Tiếp theo</button>
+            </div>
         </div>
-        
+
         <div class="loading" id="loadingIndicator">
             <div class="spinner"></div>
-            <p>AI đang phân tích và tạo câu hỏi phù hợp với bạn...</p>
+            <p>[KHOA AI] Đang phân tích kết quả dựa trên câu trả lời của bạn...</p>
         </div>
-        
-        <div class="question-container" id="questionContainer">
-            <div class="question-text" id="questionText"></div>
-            <div class="options-container" id="optionsContainer"></div>
-            <div class="nav-buttons">
-                <button class="btn-secondary" id="resetBtn">Bắt đầu lại</button>
-                <button class="btn-primary" id="nextBtn" disabled>Tiếp theo</button>
-            </div>
-        </div>
-        
+
         <div class="result-container" id="resultContainer">
-            <h2 class="result-title">Kết quả đánh giá tâm lý</h2>
+            <h2 class="result-title">Đánh giá tâm lý của bạn</h2>
+            <div id="resultLevel" class="result-level"></div>
             <div class="result-content" id="resultContent"></div>
-            <div class="music-recommendations" id="musicRecommendations">
-                <h3>Gợi ý âm nhạc cho bạn</h3>
-                <div id="musicList"></div>
+            <div class="music-recommendations">
+                <h3 class="music-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Đề xuất âm nhạc
+                </h3>
+                <ul class="music-list" id="musicList"></ul>
             </div>
-            <div class="nav-buttons" style="justify-content: center;">
-                <button class="btn-accent" id="retakeBtn">Làm lại bài test</button>
-            </div>
+            <button class="btn btn-primary" id="restartBtn" style="margin-top: 1.5rem; width: 100%;">Làm lại bài kiểm tra</button>
         </div>
     </div>
-    
+
     <footer>
-        <p>© 2023 Trắc nghiệm Tâm lý AI. Tất cả quyền được bảo lưu.</p>
+        <p>© 2025 KHOA AI TEST TÂM LÝ | Thông tin chi tiết về tâm lý được hỗ trợ bởi AI</p>
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-    // DOM Elements
-    const questionText = document.getElementById('questionText');
-    const optionsContainer = document.getElementById('optionsContainer');
-    const nextBtn = document.getElementById('nextBtn');
-    const resetBtn = document.getElementById('resetBtn');
-    const retakeBtn = document.getElementById('retakeBtn');
-    const progressBar = document.getElementById('progressBar');
-    const questionContainer = document.getElementById('questionContainer');
-    const resultContainer = document.getElementById('resultContainer');
-    const resultContent = document.getElementById('resultContent');
-    const musicList = document.getElementById('musicList');
-    const loadingIndicator = document.getElementById('loadingIndicator');
-    
-    // State variables
-    let currentQuestionIndex = 0;
-    let answers = [];
-    let questions = [];
-    const totalQuestions = 21;
-    const apiKey = 'AIzaSyCOFBRKmDGipgq3cX2aI_74NfSfjZ_bYtE';
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-    
-    // Initialize the test
-    initTest();
-    
-    // Event listeners
-    nextBtn.addEventListener('click', goToNextQuestion);
-    resetBtn.addEventListener('click', resetTest);
-    retakeBtn.addEventListener('click', resetTest);
-    
-    // Functions
-    function initTest() {
-        // Load saved progress if exists
-        const savedTest = localStorage.getItem('psychologyTest');
-        if (savedTest) {
-            const testData = JSON.parse(savedTest);
-            currentQuestionIndex = testData.currentQuestionIndex;
-            answers = testData.answers;
-            questions = testData.questions || [];
+        // Configuration
+        const TOTAL_QUESTIONS = 21;
+        const API_KEY = "AIzaSyCOFBRKmDGipgq3cX2aI_74NfSfjZ_bYtE";
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
+        
+        // DOM Elements
+        const testContainer = document.getElementById('testContainer');
+        const resultContainer = document.getElementById('resultContainer');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const questionText = document.getElementById('questionText');
+        const optionsContainer = document.getElementById('optionsContainer');
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+        const nextBtn = document.getElementById('nextBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const restartBtn = document.getElementById('restartBtn');
+        const resultLevel = document.getElementById('resultLevel');
+        const resultContent = document.getElementById('resultContent');
+        const musicList = document.getElementById('musicList');
+        
+        // State variables
+        let currentQuestionIndex = 0;
+        let userResponses = [];
+        let questions = [];
+        let selectedOption = null;
+        
+        // Initialize the test
+        function initTest() {
+            // Check if there's saved progress
+            const savedProgress = localStorage.getItem('mindExplorerProgress');
             
-            if (currentQuestionIndex >= totalQuestions) {
-                showResults();
-            } else if (questions.length > currentQuestionIndex) {
-                displayQuestion();
+            if (savedProgress) {
+                const progress = JSON.parse(savedProgress);
+                currentQuestionIndex = progress.currentQuestionIndex;
+                userResponses = progress.userResponses;
+                questions = progress.questions;
+                
+                // If we have questions but not enough for the current index, reset
+                if (questions.length <= currentQuestionIndex && currentQuestionIndex > 0) {
+                    resetTest();
+                    return;
+                }
+                
+                updateProgress();
+                if (questions.length > currentQuestionIndex) {
+                    displayQuestion(questions[currentQuestionIndex]);
+                } else {
+                    generateQuestion();
+                }
             } else {
-                generateNextQuestion();
+                resetTest();
             }
-        } else {
-            generateNextQuestion();
         }
         
-        updateProgressBar();
-    }
-    
-    async function generateNextQuestion() {
-        showLoading(true);
-        
-        try {
-            const context = buildQuestionContext();
-            const prompt = buildQuestionPrompt(context);
+        // Reset the test
+        function resetTest() {
+            currentQuestionIndex = 0;
+            userResponses = [];
+            questions = [];
+            selectedOption = null;
             
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    contents: [{
-                        parts: [{
-                            text: prompt
-                        }]
-                    }]
-                })
+            localStorage.removeItem('mindExplorerProgress');
+            updateProgress();
+            generateQuestion();
+        }
+        
+        // Update progress bar and text
+        function updateProgress() {
+            const progressPercentage = (currentQuestionIndex / TOTAL_QUESTIONS) * 100;
+            progressBar.style.width = `${progressPercentage}%`;
+            progressText.textContent = `Question ${currentQuestionIndex + 1} of ${TOTAL_QUESTIONS}`;
+        }
+        
+        // Display question
+        function displayQuestion(question) {
+            // Add fade-out animation
+            questionText.classList.add('fade-out');
+            optionsContainer.classList.add('fade-out');
+            
+            setTimeout(() => {
+                questionText.textContent = question.text;
+                
+                // Clear previous options
+                optionsContainer.innerHTML = '';
+                
+                // Add new options
+                question.options.forEach((option, index) => {
+                    const optionBtn = document.createElement('button');
+                    optionBtn.className = 'option-btn';
+                    optionBtn.textContent = option;
+                    optionBtn.dataset.index = index;
+                    
+                    optionBtn.addEventListener('click', () => selectOption(optionBtn, index));
+                    
+                    optionsContainer.appendChild(optionBtn);
+                });
+                
+                // Remove fade-out and add fade-in animation
+                questionText.classList.remove('fade-out');
+                optionsContainer.classList.remove('fade-out');
+                questionText.classList.add('fade-in');
+                optionsContainer.classList.add('fade-in');
+                
+                setTimeout(() => {
+                    questionText.classList.remove('fade-in');
+                    optionsContainer.classList.remove('fade-in');
+                }, 300);
+                
+                // Reset selected option
+                selectedOption = null;
+                nextBtn.disabled = true;
+            }, 300);
+        }
+        
+        // Select an option
+        function selectOption(optionBtn, index) {
+            // Deselect all options
+            document.querySelectorAll('.option-btn').forEach(btn => {
+                btn.classList.remove('selected');
             });
             
-            if (!response.ok) {
-                throw new Error(`API request failed with status ${response.status}`);
+            // Select clicked option
+            optionBtn.classList.add('selected');
+            selectedOption = index;
+            nextBtn.disabled = false;
+        }
+        
+        // Generate a new question using AI
+        async function generateQuestion() {
+            try {
+                nextBtn.disabled = true;
+                optionsContainer.innerHTML = '';
+                questionText.textContent = 'KHOA AI - Đang tạo câu hỏi...';
+                
+                // Prepare the prompt for the AI
+                let prompt = `Tạo một câu hỏi đánh giá tâm lý với 4 lựa chọn trả lời. `;
+                
+                if (userResponses.length > 0) {
+                    prompt += `Dựa trên các phản hồi trước đó của người dùng:`;
+                    
+                    // Include previous questions and answers for context
+                    for (let i = 0; i < userResponses.length; i++) {
+                        prompt += `Đối với câu hỏi "${questions[i].text}", họ đã chọn "${questions[i].options[userResponses[i]]}". `;
+                    }
+                    
+                    prompt += `Câu hỏi tiếp theo tự nhiên sẽ theo sau quỹ đạo cảm xúc và tâm lý này. `;
+                }
+                
+                prompt += `Câu hỏi nên khám phá một trong những khía cạnh tâm lý sau: lo lắng, căng thẳng, áp lực học tập/công việc, cô đơn, tự tin, kỳ vọng vào bản thân, mối quan hệ gia đình, mối quan hệ xã hội, sở thích cá nhân, hy vọng trong tương lai hoặc cảm xúc hiện tại.`;
+                prompt += `Đảm bảo câu hỏi này khác biệt với các câu hỏi trước về nội dung và cách diễn đạt.`;
+                prompt += `The answer format is as follows: Question: [question text] | Option 1: [text] | Option 2: [text] | Option 3: [text] | Option 4: [text]`;
+                
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: prompt
+                            }]
+                        }]
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.error?.message || 'Failed to generate question');
+                }
+                
+                // Extract the generated content
+                const generatedText = data.candidates[0].content.parts[0].text;
+                
+                // Parse the generated text into question and options
+                const questionParts = generatedText.split('|').map(part => part.trim());
+                const question = {
+                    text: questionParts[0].replace('Question:', '').trim(),
+                    options: [
+                        questionParts[1].replace('Option 1:', '').trim(),
+                        questionParts[2].replace('Option 2:', '').trim(),
+                        questionParts[3].replace('Option 3:', '').trim(),
+                        questionParts[4].replace('Option 4:', '').trim()
+                    ]
+                };
+                
+                // Add to questions array
+                questions.push(question);
+                
+                // Save progress
+                saveProgress();
+                
+                // Display the question
+                displayQuestion(question);
+                
+            } catch (error) {
+                console.error('Error generating question:', error);
+                questionText.textContent = 'Error generating question. Please try again.';
+                setTimeout(generateQuestion, 2000);
             }
+        }
+        
+        // Save progress to localStorage
+        function saveProgress() {
+            const progress = {
+                currentQuestionIndex,
+                userResponses,
+                questions
+            };
             
-            const data = await response.json();
-            const generatedText = data.candidates[0].content.parts[0].text;
+            localStorage.setItem('mindExplorerProgress', JSON.stringify(progress));
+        }
+        
+        // Move to next question
+        async function nextQuestion() {
+            if (selectedOption === null) return;
             
-            // Parse the generated question and options
-            const parsedQuestion = parseGeneratedQuestion(generatedText);
-            questions.push(parsedQuestion);
+            // Save user response
+            userResponses.push(selectedOption);
+            
+            // Update progress
+            currentQuestionIndex++;
+            updateProgress();
             
             // Save progress
             saveProgress();
             
-            // Display the question
-            displayQuestion();
-        } catch (error) {
-            console.error('Error generating question:', error);
-            alert('Có lỗi xảy ra khi tạo câu hỏi. Vui lòng thử lại.');
-            showLoading(false);
-        }
-    }
-    
-    function buildQuestionContext() {
-        if (answers.length === 0) {
-            return "Đây là câu hỏi đầu tiên trong bài test. Hãy tạo một câu hỏi mở đầu nhẹ nhàng về cảm xúc hiện tại.";
-        }
-        
-        // Build context based on previous answers
-        let context = `Người dùng đã trả lời ${answers.length} câu hỏi trước đó. `;
-        context += `Câu hỏi gần nhất là: "${questions[questions.length-1].text}". `;
-        context += `Câu trả lời gần nhất là: "${answers[answers.length-1].answerText}". `;
-        
-        // Add emotional context if available
-        if (answers.length >= 3) {
-            const recentAnswers = answers.slice(-3);
-            const positiveCount = recentAnswers.filter(a => a.answerIndex === 0 || a.answerIndex === 1).length;
-            const negativeCount = recentAnswers.filter(a => a.answerIndex === 2 || a.answerIndex === 3).length;
-            
-            if (positiveCount > negativeCount) {
-                context += "Xu hướng gần đây của người dùng là tích cực. ";
-            } else if (negativeCount > positiveCount) {
-                context += "Xu hướng gần đây của người dùng là tiêu cực. ";
-            } else {
-                context += "Xu hướng gần đây của người dùng là trung lập. ";
+            // Check if test is complete
+            if (currentQuestionIndex >= TOTAL_QUESTIONS) {
+                completeTest();
+                return;
             }
-        }
-        
-        context += "Hãy tạo câu hỏi tiếp theo phù hợp với mạch cảm xúc hiện tại, không trùng lặp với các câu hỏi trước.";
-        
-        return context;
-    }
-    
-    function buildQuestionPrompt(context) {
-        return `Bạn là một chuyên gia tâm lý đang thực hiện bài trắc nghiệm tâm lý gồm 21 câu hỏi. ${context}
-
-        Yêu cầu:
-        1. Tạo một câu hỏi trắc nghiệm tâm lý duy nhất, không trùng lặp với các câu hỏi trước.
-        2. Câu hỏi phải phù hợp với mạch cảm xúc hiện tại của người dùng.
-        3. Mỗi câu hỏi có 4 lựa chọn trả lời, thể hiện các mức độ từ tích cực đến tiêu cực.
-        4. Câu hỏi phải tự nhiên, khai thác đa dạng chủ đề tâm lý.
-        5. Định dạng câu hỏi như sau:
-        
-        [Câu hỏi]
-        1. [Lựa chọn 1 - tích cực nhất]
-        2. [Lựa chọn 2 - hơi tích cực]
-        3. [Lựa chọn 3 - hơi tiêu cực]
-        4. [Lựa chọn 4 - tiêu cực nhất]
-        
-        Ví dụ:
-        Bạn cảm thấy thế nào về các mối quan hệ xã hội của mình gần đây?
-        1. Rất tốt, tôi có nhiều bạn bè và luôn cảm thấy được hỗ trợ
-        2. Khá tốt, mặc dù đôi khi tôi cảm thấy hơi cô đơn
-        3. Không tốt lắm, tôi cảm thấy khó kết nối với người khác
-        4. Rất tệ, tôi gần như không có mối quan hệ ý nghĩa nào
-        
-        Hãy tạo câu hỏi tiếp theo:`;
-    }
-    
-    function parseGeneratedQuestion(text) {
-        // Extract question and options from the generated text
-        const lines = text.split('\n').filter(line => line.trim() !== '');
-        
-        // The first line is the question
-        const question = lines[0].replace(/^\d+\.\s*/, '').replace(/^- /, '').trim();
-        
-        // The next 4 lines are options
-        const options = [];
-        for (let i = 1; i <= 4 && i < lines.length; i++) {
-            let option = lines[i].replace(/^\d+\.\s*/, '').trim();
-            options.push(option);
-        }
-        
-        // If we didn't get 4 options, fill with defaults
-        while (options.length < 4) {
-            options.push(`Lựa chọn ${options.length + 1}`);
-        }
-        
-        return {
-            text: question,
-            options: options
-        };
-    }
-    
-    function displayQuestion() {
-        showLoading(false);
-        
-        const question = questions[currentQuestionIndex];
-        questionText.textContent = question.text;
-        
-        optionsContainer.innerHTML = '';
-        question.options.forEach((option, index) => {
-            const optionElement = document.createElement('div');
-            optionElement.classList.add('option');
-            optionElement.textContent = option;
-            optionElement.addEventListener('click', () => selectOption(index, optionElement));
-            optionsContainer.appendChild(optionElement);
-        });
-        
-        // Check if this question was already answered
-        if (answers[currentQuestionIndex]) {
-            const selectedIndex = answers[currentQuestionIndex].answerIndex;
-            const options = optionsContainer.querySelectorAll('.option');
-            options[selectedIndex].classList.add('selected');
-            nextBtn.disabled = false;
-        } else {
-            nextBtn.disabled = true;
-        }
-        
-        // Update button text for last question
-        if (currentQuestionIndex === totalQuestions - 1) {
-            nextBtn.textContent = 'Xem kết quả';
-        } else {
-            nextBtn.textContent = 'Tiếp theo';
-        }
-    }
-    
-    function selectOption(index, element) {
-        // Remove selected class from all options
-        const options = optionsContainer.querySelectorAll('.option');
-        options.forEach(opt => opt.classList.remove('selected'));
-        
-        // Add selected class to clicked option
-        element.classList.add('selected');
-        
-        // Store the answer
-        if (!answers[currentQuestionIndex]) {
-            answers[currentQuestionIndex] = {
-                answerIndex: index,
-                answerText: questions[currentQuestionIndex].options[index]
-            };
-            saveProgress();
-        }
-        
-        // Enable next button
-        nextBtn.disabled = false;
-    }
-    
-    function goToNextQuestion() {
-        if (!answers[currentQuestionIndex]) {
-            alert('Vui lòng chọn một đáp án trước khi tiếp tục.');
-            return;
-        }
-        
-        currentQuestionIndex++;
-        updateProgressBar();
-        
-        if (currentQuestionIndex < totalQuestions) {
-            if (currentQuestionIndex < questions.length) {
-                displayQuestion();
-            } else {
-                generateNextQuestion();
-            }
-        } else {
-            showResults();
-        }
-    }
-    
-    function updateProgressBar() {
-        const progress = ((currentQuestionIndex) / totalQuestions) * 100;
-        progressBar.style.width = `${progress}%`;
-    }
-    
-    async function showResults() {
-        showLoading(true);
-        
-        try {
-            // Generate analysis based on answers
-            const analysis = await generateAnalysis();
             
-            // Display results
-            questionContainer.style.display = 'none';
-            resultContainer.style.display = 'block';
-            
-            resultContent.innerHTML = `
-                <h3>Mức độ tâm lý: <strong>${analysis.level}</strong></h3>
-                <p>${analysis.advice}</p>
-            `;
-            
-            // Display music recommendations
-            musicList.innerHTML = '';
-            analysis.musicRecommendations.forEach(song => {
-                const musicItem = document.createElement('div');
-                musicItem.classList.add('music-item');
-                musicItem.innerHTML = `
-                    <div>
-                        <strong>${song.title}</strong> - ${song.artist}
-                        <p><small>${song.reason}</small></p>
-                    </div>
-                `;
-                musicList.appendChild(musicItem);
-            });
-            
-            // Clear the test data from storage
-            localStorage.removeItem('psychologyTest');
-        } catch (error) {
-            console.error('Error generating results:', error);
-            alert('Có lỗi xảy ra khi tạo kết quả. Vui lòng thử lại.');
-        } finally {
-            showLoading(false);
-        }
-    }
-    
-    async function generateAnalysis() {
-        // Build prompt for analysis
-        let prompt = `Tôi đã hoàn thành bài trắc nghiệm tâm lý gồm 21 câu hỏi. Dưới đây là các câu hỏi và câu trả lời:\n\n`;
-        
-        for (let i = 0; i < questions.length; i++) {
-            prompt += `Câu ${i+1}: ${questions[i].text}\n`;
-            prompt += `Trả lời: ${answers[i].answerText}\n\n`;
+            // Generate next question
+            await generateQuestion();
         }
         
-        prompt += `Hãy phân tích các câu trả lời và đưa ra đánh giá tâm lý theo các yêu cầu sau:
-        1. Xác định mức độ tâm lý (chỉ chọn một): Nhẹ, Vừa, Nặng, Nghiêm trọng
-        2. Đưa ra lời khuyên cụ thể, ngắn gọn (khoảng 100 từ)
-        3. Gợi ý 3 bản nhạc phù hợp với trạng thái tâm lý, mỗi bản nhạc gồm: tên bài hát, nghệ sĩ, và lý do ngắn gọn tại sao phù hợp
-        
-        Định dạng kết quả phân tích dưới dạng JSON như sau:
-        {
-            "level": "Mức độ",
-            "advice": "Lời khuyên",
-            "musicRecommendations": [
-                {
-                    "title": "Tên bài hát",
-                    "artist": "Nghệ sĩ",
-                    "reason": "Lý do"
-                },
-                ...
-            ]
-        }`;
-        
-        const response = await fetch(apiUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                contents: [{
-                    parts: [{
-                        text: prompt
-                    }]
-                }]
-            })
-        });
-        
-        if (!response.ok) {
-            throw new Error(`API request failed with status ${response.status}`);
-        }
-        
-        const data = await response.json();
-        const generatedText = data.candidates[0].content.parts[0].text;
-        
-        // Try to extract JSON from the response
-        try {
-            const jsonStart = generatedText.indexOf('{');
-            const jsonEnd = generatedText.lastIndexOf('}') + 1;
-            const jsonStr = generatedText.slice(jsonStart, jsonEnd);
-            return JSON.parse(jsonStr);
-        } catch (e) {
-            console.error('Error parsing analysis JSON:', e);
-            // Fallback to default analysis
-            return {
-                level: "Vừa",
-                advice: "Bạn đang trải qua một số khó khăn về mặt tâm lý nhưng ở mức độ có thể kiểm soát được. Hãy dành thời gian chăm sóc bản thân, chia sẻ với người thân hoặc chuyên gia nếu cần thiết.",
-                musicRecommendations: [
-                    {
-                        title: "Weightless",
-                        artist: "Marconi Union",
-                        reason: "Bài hát được khoa học chứng minh giúp giảm lo âu"
-                    },
-                    {
-                        title: "Someone Like You",
-                        artist: "Adele",
-                        reason: "Giai điệu nhẹ nhàng giúp giải tỏa cảm xúc"
-                    },
-                    {
-                        title: "Here Comes the Sun",
-                        artist: "The Beatles",
-                        reason: "Tạo cảm giác lạc quan và hy vọng"
-                    }
-                ]
-            };
-        }
-    }
-    
-    function resetTest() {
-        // Clear storage and reset state
-        localStorage.removeItem('psychologyTest');
-        currentQuestionIndex = 0;
-        answers = [];
-        questions = [];
-        
-        // Reset UI
-        questionContainer.style.display = 'block';
-        resultContainer.style.display = 'none';
-        nextBtn.textContent = 'Tiếp theo';
-        nextBtn.disabled = true;
-        
-        // Start new test
-        generateNextQuestion();
-        updateProgressBar();
-    }
-    
-    function saveProgress() {
-        const testData = {
-            currentQuestionIndex: currentQuestionIndex,
-            answers: answers,
-            questions: questions
-        };
-        localStorage.setItem('psychologyTest', JSON.stringify(testData));
-    }
-    
-    function showLoading(show) {
-        if (show) {
+        // Complete the test and show results
+        async function completeTest() {
+            // Hide test container, show loading indicator
+            testContainer.style.display = 'none';
             loadingIndicator.style.display = 'block';
-            questionContainer.style.display = 'none';
-        } else {
-            loadingIndicator.style.display = 'none';
-            questionContainer.style.display = 'block';
+            
+            try {
+                // Prepare prompt for analysis
+                let prompt = `Phân tích các phản hồi kiểm tra tâm lý này và đưa ra:\n`;
+                prompt += `1. Mức độ đánh giá (Nhẹ, Trung bình, Nặng hoặc Nguy kịch)\n`;
+                prompt += `2. Phân tích chi tiết trạng thái tâm lý\n`;
+                prompt += `3. 5 đề xuất âm nhạc có thể giúp ích dựa trên đánh giá\n\n`;
+                prompt += `Trả lời:\n`;
+                
+                for (let i = 0; i < userResponses.length; i++) {
+                    prompt += `Q: ${questions[i].text}\nA: ${questions[i].options[userResponses[i]]}\n\n`;
+                }
+                
+                prompt += `Định dạng câu trả lời như sau:\nĐánh giá: [mức độ]\nPhân tích: [văn bản]\nÂm nhạc: 1. [bài hát] của [nghệ sĩ]\n2. [bài hát] của [nghệ sĩ]\n...`;
+                
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: prompt
+                            }]
+                        }]
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.error?.message || 'Failed to analyze responses');
+                }
+                
+                // Extract the generated content
+                const resultText = data.candidates[0].content.parts[0].text;
+                
+                // Parse the results
+                const assessmentMatch = resultText.match(/Assessment:\s*(Nhẹ|Trung bình|Nặng|Nguy kịch)/i);
+                const analysisMatch = resultText.match(/Analysis:\s*([\s\S]*?)(?=Music:|$)/i);
+                const musicMatch = resultText.match(/Music:([\s\S]*)/i);
+                
+                const assessment = assessmentMatch ? assessmentMatch[1] : 'Moderate';
+                const analysis = analysisMatch ? analysisMatch[1].trim() : 'The analysis could not be generated.';
+                const musicText = musicMatch ? musicMatch[1] : '';
+                
+                // Extract music recommendations
+                const musicItems = [];
+                if (musicText) {
+                    const musicLines = musicText.split('\n').filter(line => line.trim() && /^\d+\./.test(line.trim()));
+                    musicItems.push(...musicLines.map(line => line.replace(/^\d+\.\s*/, '').trim()));
+                }
+                
+                // Fallback music recommendations if none were generated
+                if (musicItems.length === 0) {
+                    musicItems.push(
+                        "Weightless by Marconi Union",
+                        "Clair de Lune by Claude Debussy",
+                        "Strobe by Deadmau5",
+                        "Sunflower by Post Malone & Swae Lee",
+                        "Blinding Lights by The Weeknd"
+                    );
+                }
+                
+                // Display results
+                resultLevel.textContent = assessment;
+                resultLevel.className = 'result-level';
+                
+                // Add appropriate class based on assessment level
+                if (assessment.toLowerCase() === 'mild') {
+                    resultLevel.classList.add('level-mild');
+                } else if (assessment.toLowerCase() === 'moderate') {
+                    resultLevel.classList.add('level-moderate');
+                } else if (assessment.toLowerCase() === 'severe') {
+                    resultLevel.classList.add('level-severe');
+                } else {
+                    resultLevel.classList.add('level-critical');
+                }
+                
+                resultContent.textContent = analysis;
+                
+                // Display music recommendations
+                musicList.innerHTML = '';
+                musicItems.forEach(item => {
+                    const li = document.createElement('li');
+                    li.className = 'music-item';
+                    li.innerHTML = `
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 18V5L21 3V16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="6" cy="18" r="3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="18" cy="16" r="3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        ${item}
+                    `;
+                    musicList.appendChild(li);
+                });
+                
+                // Hide loading indicator, show results
+                loadingIndicator.style.display = 'none';
+                resultContainer.style.display = 'block';
+                
+                // Clear storage
+                localStorage.removeItem('mindExplorerProgress');
+                
+            } catch (error) {
+                console.error('Error analyzing responses:', error);
+                loadingIndicator.innerHTML = '<p>Error generating results. Please try again.</p>';
+                setTimeout(initTest, 3000);
+            }
         }
-    }
-});
+        
+        // Event listeners
+        nextBtn.addEventListener('click', nextQuestion);
+        resetBtn.addEventListener('click', resetTest);
+        restartBtn.addEventListener('click', () => {
+            resultContainer.style.display = 'none';
+            testContainer.style.display = 'block';
+            resetTest();
+        });
+        
+        // Initialize the test
+        document.addEventListener('DOMContentLoaded', initTest);
     </script>
 </body>
 </html>
